@@ -1,0 +1,48 @@
+<html>
+    <body>
+          <p>Getting started with Firebase</p>
+          <h1 id="bigOne"></h1>
+
+  <script src="https://www.gstatic.com/firebasejs/7.15.5/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/7.15.5/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/7.15.5/firebase-database.js"></script>
+
+<script>
+  // Your web app's Firebase configuration
+  var firebaseConfig = {
+    apiKey: "AIzaSyC90p4LUAzcdpIPGsAdMtz3f_XI8G4NFNk",
+    authDomain: "hello-firebase-62034.firebaseapp.com",
+    databaseURL: "https://hello-firebase-62034.firebaseio.com",
+    projectId: "hello-firebase-62034",
+    storageBucket: "hello-firebase-62034.appspot.com",
+    messagingSenderId: "559804032229",
+    appId: "1:559804032229:web:fdf65eb7c56ff974db200c",
+    measurementId: "G-B3V19E3L15"
+  };
+  // Initialize Firebase
+  firebase.initializeApp(firebaseConfig);
+</script>
+
+<script>
+      var bigOne = document.getElementById('bigOne'); // 데이터베이스 레퍼런스 가져오기
+      var dbRef = firebase.database().ref().child('text');
+      dbRef.set( // 데이터 쓰기
+      'Hello Firebase'
+      );
+    
+         var dbRef2 = firebase.database().ref()
+         dbRef2.update({
+         'text' : 'Good Morning Firebase'
+         });
+    
+      // 데이터베이스 새로운 값이 들어오면 이벤트 발생
+      dbRef.on("value", function(snapshot) { // JavaScript 콘솔에 데이터 스냅샷 출력
+        console.log(snapshot.val()); // 웹페이지에 데이터 스냅샷의 값 출력
+        bigOne.innerText = snapshot.val();
+      }, function (error) {
+        console.log("Error: " + error.code);
+      });
+      //dbRef.on('value', snap => bigOne.innerText = snap.val());
+    </script>
+  </body>
+</html>

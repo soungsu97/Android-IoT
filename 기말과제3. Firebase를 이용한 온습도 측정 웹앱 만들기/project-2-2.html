@@ -1,0 +1,38 @@
+<html>
+    <body>
+        <h2> Firebase IoT Weather Monitor using Object Data</h2>
+     <h2 id="temp"> </h2>
+     <h2 id="humi"> </h2>
+
+     
+     <script src="https://www.gstatic.com/firebasejs/7.15.5/firebase-app.js"></script>
+     <script src="https://www.gstatic.com/firebasejs/7.15.5/firebase-auth.js"></script>
+     <script src="https://www.gstatic.com/firebasejs/7.15.5/firebase-database.js"></script>
+
+    <script>
+  // Your web app's Firebase configuration
+  var firebaseConfig = {
+    apiKey: "AIzaSyC90p4LUAzcdpIPGsAdMtz3f_XI8G4NFNk",
+    authDomain: "hello-firebase-62034.firebaseapp.com",
+    databaseURL: "https://hello-firebase-62034.firebaseio.com",
+    projectId: "hello-firebase-62034",
+    storageBucket: "hello-firebase-62034.appspot.com",
+    messagingSenderId: "559804032229",
+    appId: "1:559804032229:web:fdf65eb7c56ff974db200c",
+    measurementId: "G-B3V19E3L15"
+  };
+        // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+      </script>
+
+      <script>
+        var objRef = firebase.database().ref().child('logDHT/');
+        objRef.on("child_added", function(snapshot){
+        var newHumi = snapshot.val().humidity;
+        var newTemp = snapshot.val().temperature;
+        humi.innerText = "Humidity : " + newHumi + "%";
+        temp.innerText = "Temperature : " + newTemp + "℃";
+        });
+        </script>
+    </body>
+</html>
