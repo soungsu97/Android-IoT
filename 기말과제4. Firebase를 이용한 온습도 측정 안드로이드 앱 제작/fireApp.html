@@ -1,0 +1,51 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Home</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+  </head>
+  <body>
+    <div class="container">
+      <h4> Weather Monitor using Firebase, NodeMCU, Android Studio</h4><br>
+      <div id="time"></div><br>
+      <div class="progress">
+        <div id="temp" class="progress-bar progress-bar-striped progress-bar-animated bg-dark"></div>
+      </div><br>
+      <div class="progress">
+        <div id="humi" class="progress-bar progress-bar-striped progress-bar-animated bg-info"></div>
+      </div><br>
+       
+        <script src="https://www.gstatic.com/firebasejs/7.15.5/firebase-app.js"></script>
+      <script src="https://www.gstatic.com/firebasejs/7.15.5/firebase-auth.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/7.15.5/firebase-database.js"></script>
+        
+      <script> // Your web app's Firebase configuration
+        var firebaseConfig = {
+        apiKey: "AIzaSyCIYMGFlDMNBLJI4LP2_BDCBtFoKygVxCQ",
+        authDomain: "fir-android-a0541.firebaseapp.com",
+        databaseURL: "https://fir-android-a0541.firebaseio.com",
+        projectId: "fir-android-a0541",
+        storageBucket: "fir-android-a0541.appspot.com",
+        messagingSenderId: "729761691802",
+        appId: "1:729761691802:web:16c302f20d21b2ff704723",
+        measurementId: "G-J0TNFLDGT3"
+      };
+        firebase.initializeApp(firebaseConfig); // 설정한 파이어베이스 구성
+      </script>
+      <script>
+        var objRef = firebase.database().ref().child('logDHT/'); // logDHT 경로 받기(없을 경우 경로 생성)
+        objRef.on("child_added", function(snapshot) { // 받은 경로의 값이 바뀔 경우(value 이벤트 발생 시) 자식 추가
+          var newHumi = snapshot.val().humidity; // 바뀐 값 받아놓기
+          var newTemp = snapshot.val().temperature;
+          var newTime = snapshot.val().time;
+          time.innerText = "데이터 갱신 시각 : " + newTime; // 바뀐 값 바꿔주기
+          humi.innerText = "Humidity : " + newHumi + "%";
+          temp.innerText = "Temperature : " + newTemp + "℃";
+        });
+      </script>
+    </div>
+  </body>
+</html>
