@@ -1,0 +1,55 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Firebase with NodeMCU</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+  </head>
+  <body>
+    <div class="container">
+      <h4> NodeMCU를 Firebase와 연동하여 LED 켜고, 끄기</h4><br>
+      <img id="led" src="./sun2.png">
+      <script src="https://www.gstatic.com/firebasejs/7.15.4/firebase-app.js"></script>
+      <script src="https://www.gstatic.com/firebasejs/7.15.4/firebase-auth.js"></script>
+      <script src="https://www.gstatic.com/firebasejs/7.15.4/firebase-database.js"></script>
+      <script>
+          var firebaseConfig = {
+      apiKey: "AIzaSyBvIetmW2nYa7yrKe5S6mnziGqoykbMOXk",
+      authDomain: "led-on-off-efcad.firebaseapp.com",
+      databaseURL: "https://led-on-off-efcad.firebaseio.com",
+      projectId: "led-on-off-efcad",
+      storageBucket: "led-on-off-efcad.appspot.com",
+      messagingSenderId: "454676382500",
+      appId: "1:454676382500:web:3cdc1e398adb61326129b1",
+      measurementId: "G-KXN5CR9WBC"
+    };
+        firebase.initializeApp(firebaseConfig); // 설정한 파이어베이스 구성
+      </script>
+      <script>
+        var myRef = firebase.database().ref();  // 데이터베이스 선언
+        var newStatus;
+        document.getElementById("led").addEventListener("click", dataSet);  // 이미지에 클릭이벤트 생성
+
+        myRef.on('child_changed', function(data) {  // 값이 변경 될 때마다 실행
+          newStatus = data.val(); // 변경된 값 대입
+          console.log(newStatus);
+          if(newStatus == "OFF") {  // 데이터베이스 내의 값에 따른 이미지 변경
+            document.getElementById("led").src="./sun2.png";
+          } else {
+            document.getElementById("led").src="./sun1.png";
+          }
+        });
+
+        function dataSet() {  // 클릭 이벤트에 따른 데이터베이스 값 설정
+          if(newStatus == "ON") {
+            myRef.set({"led_status": "OFF"});
+          } else {
+            myRef.set({"led_status": "ON"});
+          }
+        }
+      </script>
+    </div>
+  </body>
+</html>
